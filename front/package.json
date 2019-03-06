@@ -1,0 +1,36 @@
+{
+  "name": "front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "grid-styled": "4.1.1",
+    "history": "4.7.2",
+    "query-string": "6.1.0",
+    "ramda": "0.25.0",
+    "react": "16.4.0",
+    "react-async-call": "0.2.3",
+    "react-delay": "0.1.0",
+    "react-dom": "16.4.0",
+    "react-helmet": "5.2.0",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
+    "react-scripts": "1.1.4",
+    "styled-components": "3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "prettier": "1.14.0"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "jsxBracketSameLine": true
+  }
+}
