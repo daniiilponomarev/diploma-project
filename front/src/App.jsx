@@ -1,7 +1,8 @@
 import React, { StrictMode } from 'react'
 import { Redirect } from 'react-router'
 import { Router, Route, Switch } from 'react-router-dom'
-import styled, { injectGlobal, ThemeProvider } from 'styled-components'
+// import styled, { injectGlobal, ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { Flex } from 'grid-styled'
 import { map, values } from 'ramda'
 import { createBrowserHistory } from 'history'
@@ -11,27 +12,27 @@ import { ErrorBoundary, PageHeader, PageFooter } from './components'
 import './App.css'
 import { colors, sizes, routes } from './common'
 
-injectGlobal`
-  html {
-    font-size: .625rem;
-    font-family: Tahoma, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: ${colors.white};
-  }
-
-  input, textarea, select, button {
-    font-family: Tahoma, Arial, sans-serif;
-  }
-
-  #root {
-    height: 100%;
-  }
-`
+// injectGlobal`
+//   html {
+//     font-size: .625rem;
+//     font-family: Tahoma, Arial, sans-serif;
+//     -webkit-font-smoothing: antialiased;
+//   }
+//   html, body {
+//     margin: 0;
+//     padding: 0;
+//     height: 100%;
+//     background: ${colors.white};
+//   }
+//
+//   input, textarea, select, button {
+//     font-family: Tahoma, Arial, sans-serif;
+//   }
+//
+//   #root {
+//     height: 100%;
+//   }
+// `
 
 const history = createBrowserHistory()
 
