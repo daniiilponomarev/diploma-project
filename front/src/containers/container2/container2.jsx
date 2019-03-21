@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { Spinner } from '../../components'
-import logo from '../../logo.svg'
+import { Spinner } from '../../components';
+import logo from '../../logo.svg';
 
 export class Container2 extends React.Component {
   render() {
@@ -14,6 +14,6 @@ export class Container2 extends React.Component {
         2
         <Spinner />
       </div>
-    )
+    );
   }
 }
