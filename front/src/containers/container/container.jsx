@@ -3,12 +3,12 @@ import createAsyncCallComponent from 'react-async-call';
 import { Flex } from '@rebass/grid';
 import Delay from 'react-delay';
 
-import { getSmth } from '../../api';
+import { getCustomer } from '../../api';
 import { Spinner } from '../../components';
 import { REQUEST_TOLERATED_TIME, indentations, colors } from '../../common';
 import logo from '../../logo.svg';
 
-const fetchSmth = ({ id }) => getSmth(id);
+const fetchSmth = ({ id }) => getCustomer(id);
 const FetchSmth = createAsyncCallComponent(fetchSmth);
 
 export const Disclaimer = ({ children }) => (
