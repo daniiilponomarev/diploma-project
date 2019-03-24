@@ -25,10 +25,13 @@ export const buildGetJson = (prefix = '') => (url, params) => {
     return cache.get(adjustedUrl)
   }
 
+  console.log('adjustedUrl111', adjustedUrl);
   const promise = fetch(adjustedUrl, {
     headers: new Headers({ 'content-type': 'application/json' }),
-    credentials: 'same-origin',
+    credentials: 'no-cors',
+    // credentials: 'same-origin',
   }).then(res => {
+    console.log('res', res);
     if (res.status !== 200) {
       cache.delete(adjustedUrl)
     }
@@ -76,6 +79,8 @@ export const buildPostMultipart = (prefix = '') =>
 
 export const getApiJson = buildGetJson(BACKEND_URL)
 export const postApiMultipart = buildPostMultipart(BACKEND_URL)
+
+export const getCustomer = id => getApiJson(`/customers/get?id=${id}`)
 
 export const getSmth = id => getApiJson(`/smth/${id}`)
 
