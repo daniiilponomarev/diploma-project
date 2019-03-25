@@ -1,4 +1,4 @@
-import { CONTEXT } from './constants'
+import { CONTEXT } from './constants';
 
 const routes = {
   base: `${CONTEXT}/`,
@@ -6,6 +6,6 @@ const routes = {
   container: `${CONTEXT}/container1`,
   container2: `${CONTEXT}/container2`,
   smth: (id = `:id`) => `${CONTEXT}/smth/${id}`,
-}
+};
 
-export { routes }
+export { routes };

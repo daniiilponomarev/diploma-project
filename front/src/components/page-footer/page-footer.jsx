@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex } from '@rebass/grid';
 
-const FooterWrapper = styled.header`
+const FooterWrapper = styled.footer`
   height: 7rem;
   background-color: #aaa;
   box-shadow: 0 -2px -2px -3px #f6f7f8;
-  width: 1366px;
+  width: 100%;
 `;
 
 export const PageFooter = () => (
