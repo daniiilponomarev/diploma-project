@@ -12,7 +12,7 @@ const HeaderWrapper = styled.header`
   background-color: #fff;
   box-shadow: 0 2px 2px 3px #f6f7f8;
   z-index: ${zIndexes.pageHeader};
-  width: 1366px;
+  width: 100%;
 `;
 
 export const PageHeader = () => (

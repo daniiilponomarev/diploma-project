@@ -65,7 +65,6 @@ history.listen((location, action) =>
 
 const AppWrapper = styled.div`
   height: 100%;
-  // max-width: 1366px;
 `;
 
 const App = () => (
@@ -78,9 +77,10 @@ const App = () => (
           <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
             <ErrorBoundary>
               <Switch>
+                <Route path={routes.base} component={Container} />
                 <Route path={routes.container} component={Container} />
                 <Route path={routes.container2} component={Container2} />
-                <Route path={routes.container} component={Container} />
+                {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
                 <Redirect to={routes.base} />
               </Switch>
             </ErrorBoundary>
