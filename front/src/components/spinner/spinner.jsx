@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { colors } from '../../common'
+import { colors } from '../../common';
 
 export const Spinner = styled.div`
   margin: 0 auto;
@@ -39,4 +39,4 @@ export const Spinner = styled.div`
       transform: rotate(360deg);
     }
   }
-`
+`;

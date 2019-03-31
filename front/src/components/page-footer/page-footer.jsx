@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Flex } from 'grid-styled'
+import React from 'react';
+import styled from 'styled-components';
+import { Flex } from '@rebass/grid';
 
-const FooterWrapper = styled.header`
+const FooterWrapper = styled.footer`
   height: 7rem;
   background-color: #aaa;
   box-shadow: 0 -2px -2px -3px #f6f7f8;
-  width: 1366px;
-`
+  width: 100%;
+`;
 
 export const PageFooter = () => (
-  <Flex is={FooterWrapper} m="0 auto" alignItems="center" py="1rem">
+  <Flex as={FooterWrapper} m="0 auto" alignItems="center" py="1rem">
     <a href="/" title="home" target="blank">
       Home
     </a>
   </Flex>
-)
+);

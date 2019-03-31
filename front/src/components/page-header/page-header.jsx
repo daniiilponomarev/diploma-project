@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Flex } from 'grid-styled'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import styled from 'styled-components';
+import { Flex } from '@rebass/grid';
+import { Link } from 'react-router-dom';
 
-import { zIndexes, routes } from '../../common'
+import { zIndexes, routes } from '../../common';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -12,11 +12,11 @@ const HeaderWrapper = styled.header`
   background-color: #fff;
   box-shadow: 0 2px 2px 3px #f6f7f8;
   z-index: ${zIndexes.pageHeader};
-  width: 1366px;
-`
+  width: 100%;
+`;
 
 export const PageHeader = () => (
-  <Flex is={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">
+  <Flex as={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">
     <Link to={routes.base} title="home">
       Home
     </Link>
@@ -27,4 +27,4 @@ export const PageHeader = () => (
       container2
     </Link>
   </Flex>
-)
+);

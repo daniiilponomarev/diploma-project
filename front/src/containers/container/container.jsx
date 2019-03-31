@@ -1,15 +1,15 @@
-import React from 'react'
-import createAsyncCallComponent from 'react-async-call'
-import { Flex } from 'grid-styled'
-import Delay from 'react-delay'
+import React from 'react';
+import createAsyncCallComponent from 'react-async-call';
+import { Flex } from '@rebass/grid';
+import Delay from 'react-delay';
 
-import { getSmth } from '../../api'
-import { Spinner } from '../../components'
-import { REQUEST_TOLERATED_TIME, indentations, colors } from '../../common'
-import logo from '../../logo.svg'
+import { getCustomer } from '../../api';
+import { Spinner } from '../../components';
+import { REQUEST_TOLERATED_TIME, indentations, colors } from '../../common';
+import logo from '../../logo.svg';
 
-const fetchSmth = ({ id }) => getSmth(id)
-const FetchSmth = createAsyncCallComponent(fetchSmth)
+const fetchSmth = ({ id }) => getCustomer(id);
+const FetchSmth = createAsyncCallComponent(fetchSmth);
 
 export const Disclaimer = ({ children }) => (
   <Flex
@@ -22,9 +22,9 @@ export const Disclaimer = ({ children }) => (
     data-spec="card-no-data">
     {children}
   </Flex>
-)
+);
 
-const emptyResult = 'Нет данных'
+const emptyResult = 'Нет данных';
 
 export class Container extends React.Component {
   render() {
@@ -38,7 +38,7 @@ export class Container extends React.Component {
         <FetchSmth params={{ id: 1 }}>
           <FetchSmth.Running>
             <Delay wait={REQUEST_TOLERATED_TIME}>
-              <Flex justifyContent="center" is={Spinner} />
+              <Flex justifyContent="center" as={Spinner} />
             </Delay>
           </FetchSmth.Running>
           <FetchSmth.Resolved>{({ result }) => <div>{result}</div>}</FetchSmth.Resolved>
@@ -47,6 +47,6 @@ export class Container extends React.Component {
           </FetchSmth.Rejected>
         </FetchSmth>
       </div>
-    )
+    );
   }
 }

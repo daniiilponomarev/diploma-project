@@ -1,22 +1,26 @@
-import React, { StrictMode } from 'react'
-import { Redirect } from 'react-router'
-import { Router, Route, Switch } from 'react-router-dom'
-import styled, { injectGlobal, ThemeProvider } from 'styled-components'
-import { Flex } from 'grid-styled'
-import { map, values } from 'ramda'
-import { createBrowserHistory } from 'history'
+import React, { StrictMode } from 'react';
+import { Redirect } from 'react-router';
+import { Router, Route, Switch } from 'react-router-dom';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+// import styled, { ThemeProvider } from 'styled-components'
+import { Flex } from '@rebass/grid';
+import { map, values } from 'ramda';
+import { createBrowserHistory } from 'history';
 
-import { Container, Container2 } from './containers'
-import { ErrorBoundary, PageHeader, PageFooter } from './components'
-import './App.css'
-import { colors, sizes, routes } from './common'
+import { Container, Container2 } from './containers';
+import { ErrorBoundary, PageHeader, PageFooter } from './components';
+import './App.css';
+import { colors, sizes, routes } from './common';
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   html {
     font-size: .625rem;
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+                  'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  
   html, body {
     margin: 0;
     padding: 0;
@@ -31,13 +35,17 @@ injectGlobal`
   #root {
     height: 100%;
   }
-`
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+`;
 
-const history = createBrowserHistory()
+const history = createBrowserHistory();
 
 const theme = {
   breakpoints: map(item => `${item}em`, values(sizes)),
-}
+};
 
 history.listen((location, action) =>
   setTimeout(() => {
@@ -47,31 +55,32 @@ history.listen((location, action) =>
     // - manually changed the URL in the address bar (here we might want
     // to scroll to top, but we can't differentiate it from the others)
     if (action === 'POP' || action === 'PUSH' || (location.state && location.state.noScroll)) {
-      return
+      return;
     }
 
     // In all other cases, scroll to top
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }),
-)
+);
 
 const AppWrapper = styled.div`
   height: 100%;
-  max-width: 1366px;
-`
+`;
 
 const App = () => (
   <StrictMode>
+    <GlobalStyle whiteColor />
     <ThemeProvider theme={theme}>
       <Router history={history}>
-        <Flex is={AppWrapper} flexDirection="column" m="0 auto">
+        <Flex as={AppWrapper} flexDirection="column" m="0 auto">
           <PageHeader />
           <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
             <ErrorBoundary>
               <Switch>
+                <Route path={routes.base} component={Container} />
                 <Route path={routes.container} component={Container} />
                 <Route path={routes.container2} component={Container2} />
-                <Route path={routes.container} component={Container} />
+                {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
                 <Redirect to={routes.base} />
               </Switch>
             </ErrorBoundary>
@@ -81,6 +90,6 @@ const App = () => (
       </Router>
     </ThemeProvider>
   </StrictMode>
-)
+);
 
-export default App
+export default App;
