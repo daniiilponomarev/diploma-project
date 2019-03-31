@@ -4,10 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.annotation.PostConstruct;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 
 import com.diploma.service.CustomerService;
 import com.diploma.model.Customer;
@@ -48,75 +47,76 @@ public class CustomerController {
     }
 
     @GetMapping("/get")
-    public List<Customer> getMethod(@RequestParam("id") int id) {
+    public ResponseEntity<List<Customer>> getMethod(@RequestParam("id") int id) {
 //        return custStores.get(id);
-        return customerService.loadAllCustomer();
+//        return customerService.loadAllCustomer();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin", "*");
+
+//        return custStores.get(custId);
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(customerService.loadAllCustomer());
     }
 
-    @RequestMapping(value = "/hmmm", method = RequestMethod.GET)
-    public String getCustomers(HttpServletRequest request, Model model) {
-//        /*
-//         * Create Customer
-//         */
-//        Random r = new Random();
-//
-//        // Customer 1
-//        Customer cus_1 = new Customer();
-//        Long cus_1_id = r.nextLong();
-//        cus_1.setCustId(cus_1_id);
-//        cus_1.setName("demoCustomer_1");
-//        cus_1.setAge(30);
-//
-//        // Customer 2
-//        Customer cus_2 = new Customer();
-//        Long cus_2_id = r.nextLong();
-//        cus_2.setCustId(cus_2_id);
-//        cus_2.setName("demoCustomer_2");
-//        cus_2.setAge(30);
-//
-//        // Customer 3
-//        Customer cus_3 = new Customer();
-//        Long cus_3_id = r.nextLong();
-//        cus_3.setCustId(cus_3_id);
-//        cus_3.setName("demoCustomer_2");
-//        cus_3.setAge(30);
-//
-//        // Insert a customer to DB
-//        customerService.insert(cus_1);
-//
-//        // Insert a List of Customer to DB
-//        List<Customer> customers = new ArrayList<Customer>();
-//        customers.add(cus_2);
-//        customers.add(cus_3);
-//        customerService.insertBatch(customers);
-//        // Load All Customer and display
-//        customerService.loadAllCustomer();
-//
-//        // Get Customer By Id
-//        System.out.println("=============Get Customer By Id");
-//        customerService.getCustomerById(Long.valueOf(cus_1_id));
-//
-//        // Get Customer's name by Id
-//        System.out.println("=============Get Customer Name by Id");
-//        customerService.getCustomerNameById(cus_2_id);
-//
-//        // Get Total Customers in DB
-//        System.out.println("=============Get Total Number Customer");
-//        customerService.getTotalNumerCustomer();
+    @GetMapping("/get-all")
+    public ResponseEntity<List<Customer>> getAllMethod() {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin", "*");
 
-        // Load All Customer and display
-        customerService.loadAllCustomer();
-        System.out.println("#######################################");
-        System.out.println("Done!!!");
-        System.out.println("#######################################");
-
-        return "0";
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(customerService.loadAllCustomer());
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addItem(@Validated Customer customer) {
-//        customerService.addItem(customer);
-//        logger.info("Item {} was added", customer);
-        return "redirect:/items/";
+    @PostMapping("/post")
+    public Customer postMethod(@RequestBody Customer customer) {
+        Random r = new Random();
+        customer.setCustId(r.nextInt());
+
+        // POST processing
+        custStores.put(customer.getCustId(), customer);
+
+        // Log out custStores after POST
+        System.out.println("Customer Stores after POST:");
+        custStores.forEach((custId, cust) -> System.out.println(cust.toString()));
+
+        return customer;
+    }
+
+    @PutMapping("/put/{id}")
+    public Customer putMethod(@PathVariable int id, @RequestBody Customer customer) {
+        // PUT processing
+        try {
+            custStores.remove(id);
+            customer.setCustId(id);
+            custStores.put(id, customer);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            return null;
+        }
+
+        // Log out custStores after PUT
+        System.out.println("Customer Stores after PUT");
+        custStores.forEach((custId, cust) -> System.out.println(cust.toString()));
+
+        return customer;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteMethod(@PathVariable int id) {
+        try {
+            // DELETE processing
+            custStores.remove(id);
+        } catch (Exception e) {
+            return "Error";
+        }
+
+        // Log out custStores after DELETE
+        System.out.println("Customer Stores after DELETE");
+        custStores.forEach((custId, cust) -> System.out.println(cust.toString()));
+
+        return "Done";
     }
 }

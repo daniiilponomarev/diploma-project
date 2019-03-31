@@ -1,63 +1,70 @@
-// import { stringify } from 'query-string'
-import { map, forEachObjIndexed } from 'ramda'
+import { stringify } from 'query-string';
+import { map, forEachObjIndexed } from 'ramda';
 
-import { BACKEND_URL } from '../common'
+import { BACKEND_URL } from '../common';
 
-// const enhancedStringify = params =>
-//   stringify(
-//     map(value => {
-//       if (Array.isArray(value) && value.length > 0) {
-//         return value.join(',')
-//       }
-//
-//       return value
-//     }, params),
-//   )
+const enhancedStringify = params =>
+  stringify(
+    map(value => {
+      if (Array.isArray(value) && value.length > 0) {
+        return value.join(',');
+      }
 
-const cache = new Map()
+      return value;
+    }, params),
+  );
+
+const cache = new Map();
 
 export const buildGetJson = (prefix = '') => (url, params) => {
-  console.log(process.env)
-  let adjustedUrl = url // params ? `${url}?${enhancedStringify(params)}` : url
-  adjustedUrl = `${prefix}${adjustedUrl}`
+  console.log(process.env);
+  let adjustedUrl = url; // params ? `${url}?${enhancedStringify(params)}` : url
+  adjustedUrl = `${prefix}${adjustedUrl}`;
 
   if (cache.has(adjustedUrl)) {
-    return cache.get(adjustedUrl)
+    console.log('cache', cache.get(adjustedUrl));
+    return cache.get(adjustedUrl);
   }
+  // adjustedUrl='https://private-amnesiac-3016b-daniilponomarev.apiary-proxy.com/questions'
+  // adjustedUrl='https://polls.apiblueprint.org/questions'
+  adjustedUrl = 'http://localhost:9998/diploma-backend/customers/get?id=1';
 
-  console.log('adjustedUrl111', adjustedUrl);
+  console.log('adjustedUrl', adjustedUrl);
   const promise = fetch(adjustedUrl, {
-    headers: new Headers({ 'content-type': 'application/json' }),
-    credentials: 'no-cors',
+    headers: new Headers({
+      // 'content-type': 'application/json',
+    }),
+    // credentials: 'no-cors',
     // credentials: 'same-origin',
   }).then(res => {
     console.log('res', res);
     if (res.status !== 200) {
-      cache.delete(adjustedUrl)
+      cache.delete(adjustedUrl);
     }
     return res.json().then(json => {
-      return json
-    })
-  })
+      console.log('json', json);
+      return json;
+    });
+  });
 
-  cache.set(adjustedUrl, promise)
+  cache.set(adjustedUrl, promise);
 
-  return promise
-}
+  return promise;
+};
 
 export const buildPostMultipart = (prefix = '') =>
   function postData(url, params, files) {
-    const adjustedUrl = `${prefix}${url}`
-    const formData = new FormData()
+    const adjustedUrl = `${prefix}${url}`;
+    const formData = new FormData();
 
     forEachObjIndexed(
       (value, key) => formData.append(key, typeof value === 'object' ? JSON.stringify(value) : value),
       params,
-    )
+    );
 
     files.forEach((item, index) => {
-      formData.append(item.name, item)
-    })
+      formData.append(item.name, item);
+    });
 
     return fetch(adjustedUrl, {
       method: 'POST',
@@ -66,23 +73,23 @@ export const buildPostMultipart = (prefix = '') =>
       body: formData,
     }).then(response => {
       if (response.status === 401) {
-        return postData(url, params, files)
+        return postData(url, params, files);
       }
 
       if (response.status !== 200) {
-        throw new Error(`Error: ${response.status}`)
+        throw new Error(`Error: ${response.status}`);
       } else {
-        return response.json()
+        return response.json();
       }
-    })
-  }
+    });
+  };
 
-export const getApiJson = buildGetJson(BACKEND_URL)
-export const postApiMultipart = buildPostMultipart(BACKEND_URL)
+export const getApiJson = buildGetJson(BACKEND_URL);
+export const postApiMultipart = buildPostMultipart(BACKEND_URL);
 
-export const getCustomer = id => getApiJson(`/customers/get?id=${id}`)
+export const getCustomer = id => getApiJson(`/customers/get?id=${id}`);
 
-export const getSmth = id => getApiJson(`/smth/${id}`)
+export const getSmth = id => getApiJson(`/smth/${id}`);
 
 export const getSmth2 = () => {
   return getApiJson('/smth').then(response => {
@@ -90,9 +97,9 @@ export const getSmth2 = () => {
       return {
         id: smth.id,
         value: smth.value,
-      }
-    })
-  })
-}
+      };
+    });
+  });
+};
 
-export const postSmth = (smth, files) => postApiMultipart('/smth', smth, files)
+export const postSmth = (smth, files) => postApiMultipart('/smth', smth, files);
