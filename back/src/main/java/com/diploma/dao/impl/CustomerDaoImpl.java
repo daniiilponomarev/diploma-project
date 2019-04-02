@@ -33,7 +33,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         String sql = "INSERT INTO customer " +
                 "(CUST_ID, NAME, AGE) VALUES (?, ?, ?)";
         getJdbcTemplate().update(sql, new Object[]{
-                cus.getCustId(), cus.getName()//, cus.getAge()
+                cus.getCustomerId(), cus.getName()//, cus.getAge()
         });
     }
 
@@ -43,7 +43,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter() {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 Customer customer = customers.get(i);
-                ps.setLong(1, customer.getCustId());
+                ps.setLong(1, customer.getCustomerId());
                 ps.setString(2, customer.getName());
 //                ps.setInt(3, customer.getAge());
             }
