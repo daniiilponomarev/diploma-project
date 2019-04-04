@@ -27,7 +27,7 @@ public class CustomersDaoImpl extends JdbcDaoSupport implements CustomersDao {
 
     @Override
     public void insertBatch(List<Customer> customers) {
-        String sql = "INSERT INTO customer " + "(CUST_ID, NAME) VALUES (?, ?)";
+        String sql = "INSERT INTO \"testTable\" " + "(id, name) responseHeaders VALUES (?, ?)";
         getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter() {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 Customer customer = customers.get(i);
@@ -48,10 +48,10 @@ public class CustomersDaoImpl extends JdbcDaoSupport implements CustomersDao {
         List<Customer> result = new ArrayList<Customer>();
 
         for (Map<String, Object> row : rows) {
-            Customer cus = new Customer();
-            cus.setCustId((Integer) row.get("id"));
-            cus.setName((String) row.get("name"));
-            result.add(cus);
+            Customer customer = new Customer();
+            customer.setCustomerId((Integer) row.get("id"));
+            customer.setName((String) row.get("name"));
+            result.add(customer);
         }
 
         return result;

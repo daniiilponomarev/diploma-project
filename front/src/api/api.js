@@ -1,8 +1,9 @@
 import { stringify } from 'query-string';
-import { map, forEachObjIndexed } from 'ramda';
+import { map, forEachObjIndexed, isEmpty, reject } from 'ramda';
 
 import { BACKEND_URL } from '../common';
 
+// common api
 const enhancedStringify = params =>
   stringify(
     map(value => {
@@ -11,14 +12,15 @@ const enhancedStringify = params =>
       }
 
       return value;
-    }, params),
+    }, reject(isEmpty, params)),
   );
 
 const cache = new Map();
 
 export const buildGetJson = (prefix = '') => (url, params) => {
-  console.log(process.env);
-  let adjustedUrl = url; // params ? `${url}?${enhancedStringify(params)}` : url
+  console.log(BACKEND_URL);
+  console.log(process.env, url, params);
+  let adjustedUrl = params ? `${url}?${enhancedStringify(params)}` : url;
   adjustedUrl = `${prefix}${adjustedUrl}`;
 
   if (cache.has(adjustedUrl)) {
@@ -27,7 +29,7 @@ export const buildGetJson = (prefix = '') => (url, params) => {
   }
   // adjustedUrl='https://private-amnesiac-3016b-daniilponomarev.apiary-proxy.com/questions'
   // adjustedUrl='https://polls.apiblueprint.org/questions'
-  adjustedUrl = 'http://localhost:9998/diploma-backend/customers/get?id=1';
+  // adjustedUrl = 'http://localhost:9998/diploma-backend/customers/get';
 
   console.log('adjustedUrl', adjustedUrl);
   const promise = fetch(adjustedUrl, {
@@ -87,7 +89,8 @@ export const buildPostMultipart = (prefix = '') =>
 export const getApiJson = buildGetJson(BACKEND_URL);
 export const postApiMultipart = buildPostMultipart(BACKEND_URL);
 
-export const getCustomer = id => getApiJson(`/customers/get?id=${id}`);
+// specific api
+export const getCustomers = id => getApiJson(`/customers/get`, id);
 
 export const getSmth = id => getApiJson(`/smth/${id}`);
 

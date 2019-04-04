@@ -61,7 +61,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
 //        List<Customer> result = new ArrayList<Customer>();
 //        for (Map<String, Object> row : rows) {
 //            Customer cus = new Customer();
-//            cus.setCustId((Long) row.get("cust_id"));
+//            cus.setCustomerId((Long) row.get("cust_id"));
 //            cus.setName((String) row.get("name"));
 //            cus.setAge((Integer) row.get("age"));
 //            result.add(cus);
@@ -74,7 +74,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         List<Customer> result = new ArrayList<Customer>();
         for (Map<String, Object> row : rows) {
             Customer cus = new Customer();
-            cus.setCustId((Integer) row.get("id"));
+            cus.setCustomerId((Integer) row.get("id"));
             cus.setName((String) row.get("name"));
 //            cus.setAge((Integer) row.get("age"));
             result.add(cus);
@@ -90,7 +90,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
             @Override
             public Customer mapRow(ResultSet rs, int rwNumber) throws SQLException {
                 Customer cust = new Customer();
-                cust.setCustId(rs.getInt("id"));
+                cust.setCustomerId(rs.getInt("id"));
                 cust.setName(rs.getString("name"));
 //                cust.setAge(rs.getInt("age"));
                 return cust;

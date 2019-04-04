@@ -67,7 +67,7 @@ public class CustomerController {
     @PostMapping("/post")
     public Customer postMethod(@RequestBody Customer customer) {
         Random r = new Random();
-        customer.setCustId(r.nextInt());
+        customer.setCustomerId(r.nextInt());
 
         // POST processing
         custStores.put(customer.getCustomerId(), customer);
@@ -84,7 +84,7 @@ public class CustomerController {
         // PUT processing
         try {
             custStores.remove(id);
-            customer.setCustId(id);
+            customer.setCustomerId(id);
             custStores.put(id, customer);
         } catch (Exception e) {
             System.out.println(e.getStackTrace());

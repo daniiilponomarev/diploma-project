@@ -17,7 +17,7 @@ public class Customer {
         return id;
     }
 
-    public void setCustId(int id) {
+    public void setCustomerId(int id) {
         this.id = id;
     }
 
