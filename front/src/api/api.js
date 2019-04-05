@@ -105,4 +105,6 @@ export const getSmth2 = () => {
   });
 };
 
+export const postCustomers = (smth, files) => postApiMultipart('/smth', smth, files);
+
 export const postSmth = (smth, files) => postApiMultipart('/smth', smth, files);
