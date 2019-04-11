@@ -1,0 +1,1 @@
+web: java -jar back/target/diploma-1.0.jar
