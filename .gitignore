@@ -4,7 +4,22 @@
 /node_modules
 /.idea
 .idea
+*.iws
 *.iml
+*.ipr
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
 
 # testing
 /coverage
