@@ -1,0 +1,5 @@
+{
+  "name": "Diploma Project",
+  "description": "An applocation for complex tech systems.",
+  "addons": [ "heroku-postgresql" ]
+}
