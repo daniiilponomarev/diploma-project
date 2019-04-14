@@ -3,12 +3,12 @@ import createAsyncCallComponent from 'react-async-call';
 import { Flex } from '@rebass/grid';
 import Delay from 'react-delay';
 
-import { getCustomer } from '../../api';
+import { getCustomers } from '../../api';
 import { Spinner } from '../../components';
 import { REQUEST_TOLERATED_TIME, indentations, colors } from '../../common';
 import logo from '../../logo.svg';
 
-const fetchSmth = ({ id }) => getCustomer(id);
+const fetchSmth = (params) => getCustomers(params);
 const FetchSmth = createAsyncCallComponent(fetchSmth);
 
 export const Disclaimer = ({ children }) => (
@@ -41,7 +41,7 @@ export class Container extends React.Component {
               <Flex justifyContent="center" as={Spinner} />
             </Delay>
           </FetchSmth.Running>
-          <FetchSmth.Resolved>{({ result }) => <div>{result}</div>}</FetchSmth.Resolved>
+          <FetchSmth.Resolved>{({ result }) => <div>{JSON.stringify(result)}</div>}</FetchSmth.Resolved>
           <FetchSmth.Rejected>
             <Disclaimer>{emptyResult}</Disclaimer>
           </FetchSmth.Rejected>

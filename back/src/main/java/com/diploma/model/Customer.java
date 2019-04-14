@@ -2,8 +2,8 @@ package com.diploma.model;
 
 public class Customer {
     private static final long serialVersionUID = 1L;
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public Customer() {
     }
@@ -13,11 +13,11 @@ public class Customer {
         this.name = name;
     }
 
-    public int getCustId() {
+    public int getCustomerId() {
         return id;
     }
 
-    public void setCustId(int id) {
+    public void setCustomerId(int id) {
         this.id = id;
     }
 
@@ -34,52 +34,3 @@ public class Customer {
         return "Customer [id=" + id + ", name=" + name + "]";
     }
 }
-
-
-//package com.diploma.model;
-//
-//public class Customer {
-//    private static final long serialVersionUID = 1L;
-//    long custId;
-//    String name;
-//    int age;
-//
-//    public Customer() {
-//    }
-//
-//    public Customer(long custId, String name, int age) {
-//        this.custId = custId;
-//        this.name = name;
-//        this.age = age;
-//    }
-//
-//    public long getCustId() {
-//        return custId;
-//    }
-//
-//    public void setCustId(long custId) {
-//        this.custId = custId;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public int getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Customer [age=" + age + ", custId=" + custId + ", name=" + name
-//                + "]";
-//    }
-//}

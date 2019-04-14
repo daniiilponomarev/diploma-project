@@ -33,7 +33,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         String sql = "INSERT INTO customer " +
                 "(CUST_ID, NAME, AGE) VALUES (?, ?, ?)";
         getJdbcTemplate().update(sql, new Object[]{
-                cus.getCustId(), cus.getName()//, cus.getAge()
+                cus.getCustomerId(), cus.getName()//, cus.getAge()
         });
     }
 
@@ -43,7 +43,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter() {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 Customer customer = customers.get(i);
-                ps.setLong(1, customer.getCustId());
+                ps.setLong(1, customer.getCustomerId());
                 ps.setString(2, customer.getName());
 //                ps.setInt(3, customer.getAge());
             }
@@ -61,7 +61,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
 //        List<Customer> result = new ArrayList<Customer>();
 //        for (Map<String, Object> row : rows) {
 //            Customer cus = new Customer();
-//            cus.setCustId((Long) row.get("cust_id"));
+//            cus.setCustomerId((Long) row.get("cust_id"));
 //            cus.setName((String) row.get("name"));
 //            cus.setAge((Integer) row.get("age"));
 //            result.add(cus);
@@ -74,7 +74,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
         List<Customer> result = new ArrayList<Customer>();
         for (Map<String, Object> row : rows) {
             Customer cus = new Customer();
-            cus.setCustId((Integer) row.get("id"));
+            cus.setCustomerId((Integer) row.get("id"));
             cus.setName((String) row.get("name"));
 //            cus.setAge((Integer) row.get("age"));
             result.add(cus);
@@ -90,7 +90,7 @@ public class CustomerDaoImpl extends JdbcDaoSupport implements CustomerDao {
             @Override
             public Customer mapRow(ResultSet rs, int rwNumber) throws SQLException {
                 Customer cust = new Customer();
-                cust.setCustId(rs.getInt("id"));
+                cust.setCustomerId(rs.getInt("id"));
                 cust.setName(rs.getString("name"));
 //                cust.setAge(rs.getInt("age"));
                 return cust;
