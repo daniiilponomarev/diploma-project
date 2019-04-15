@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Random;
 
 @RestController
-@RequestMapping(value = "/customer/*")
+@RequestMapping(value = "/api/customer/*")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;

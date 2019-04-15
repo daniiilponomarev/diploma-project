@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/customers/*")
+@RequestMapping(value = "/api/customers/*")
 public class CustomersController {
     @Autowired
     private CustomersService customersService;
@@ -33,10 +34,14 @@ public class CustomersController {
     public ResponseEntity<List<Customer>> getMethod() {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Access-Control-Allow-Origin", "*");
+        List<Customer> result = customersService.loadAllCustomer();
+        if (result.isEmpty()) {
+            result = new ArrayList<Customer>();
+        }
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
-                .body(customersService.loadAllCustomer());
+                .body(result);
     }
 
     @PostMapping("/post")

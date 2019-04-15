@@ -77,9 +77,9 @@ const App = () => (
           <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
             <ErrorBoundary>
               <Switch>
-                <Route path={routes.base} component={Container} />
                 <Route path={routes.container} component={Container} />
                 <Route path={routes.container2} component={Container2} />
+                <Route path={routes.base} component={Container} />
                 {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
                 <Redirect to={routes.base} />
               </Switch>
