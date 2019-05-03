@@ -52,6 +52,12 @@ public class CustomersDaoImpl extends JdbcDaoSupport implements CustomersDao {
             customer.setCustomerId((Integer) row.get("id"));
             customer.setName((String) row.get("name"));
             result.add(customer);
+            result.add(customer);
+            result.add(customer);
+            result.add(customer);
+            result.add(customer);
+            result.add(customer);
+            result.add(customer);
         }
 
         return result;
