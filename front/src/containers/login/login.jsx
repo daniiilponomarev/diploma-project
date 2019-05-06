@@ -9,22 +9,20 @@ import key from '../../assets/icons/key.svg';
 
 const LoginFormBorder = styled.div`
   background: rgba(216, 216, 216, 0.12);
-  width: 450px;
-  display: inline-block;
-  vertical-align: middle;
+  width: 470px;
+  height: 210px;
   border-radius: 10px;
+  padding-bottom: 5px;
 `;
 
 const LoginFormContainer = styled.div`
+  width: 450px;
+  height: 190px;
   border-radius: 10px;
-  border: 1px solid #d1d1d1;
-  box-shadow: 0 0 5px #d1d1d1, 0 5px 2px rgba(0, 0, 0, 0.29);
-  width: 100%;
+  border: 1px solid ${colors.gray};
+  box-shadow: 0 0 5px ${colors.gray}, 0 5px 2px rgba(0, 0, 0, 0.29);
   margin: 0 auto;
-  display: inline-block;
-  vertical-align: middle;
-  background: #f1f1f1;
-  background: linear-gradient(#ededed, #f1f1f1);
+  background: linear-gradient(${colors.gray30}, ${colors.gray20});
   line-height: normal;
 `;
 
@@ -78,7 +76,7 @@ export class Login extends React.Component {
   render() {
     return (
       <Flex flex="1 0 auto" flexDirection="column" justifyContent="center" alignItems="center">
-        <LoginFormBorder>
+        <Flex as={LoginFormBorder} alignItems="center">
           <LoginFormContainer>
             <Flex
               as={LoginForm}
@@ -95,7 +93,7 @@ export class Login extends React.Component {
               <Button type="submit">Войти</Button>
             </Flex>
           </LoginFormContainer>
-        </LoginFormBorder>
+        </Flex>
       </Flex>
     );
   }

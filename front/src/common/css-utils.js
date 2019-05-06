@@ -17,6 +17,17 @@ export const colors = {
   blue70: '#003088',
   blue80: '#00215f',
   blue90: '#001236',
+
+  gray0: '#ffffff',
+  gray10: '#fafafa',
+  gray20: '#f2f2f2',
+  gray30: '#e6e6e6',
+  gray40: '#d3d3d3',
+  gray50: '#bababa',
+  gray60: '#999999',
+  gray70: '#6f6f6f',
+  gray80: '#3f3f3f',
+  gray90: '#0d0d0d',
 };
 
 export const sizes = {
