@@ -5,7 +5,7 @@ import { colors } from '../../common';
 
 export const Input = styled.input`
   height: 50px;
-  width: 400px;
+  width: 100%;
   border-radius: 5px;
   display: block;
   box-shadow: inset 0 3px 2px rgba(0, 0, 0, 0.08);

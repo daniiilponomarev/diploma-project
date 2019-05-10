@@ -31,6 +31,7 @@ export const colors = {
 };
 
 export const sizes = {
+  mobile: 32,
   tablet: 52,
   desktop: 64,
 };
@@ -40,6 +41,6 @@ export const zIndexes = {
 };
 
 export const indentations = {
-  s: ['1.2rem', '2.4rem'],
+  s: ['1rem', '2rem', '2.4rem'],
   m: ['2.4rem', '3.2rem'],
 };

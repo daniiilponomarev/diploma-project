@@ -35,6 +35,7 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     height: 100%;
+    min-width: 270px;
   }
   
   code {
