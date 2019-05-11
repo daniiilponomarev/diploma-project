@@ -52,6 +52,7 @@ export class Login extends React.Component {
             method="post">
             <Box width={1} mb={10}>
               <TextField
+                variant="outlined"
                 name="username"
                 id="username"
                 autoFocus
@@ -65,6 +66,7 @@ export class Login extends React.Component {
             </Box>
             <Box width={1} mb={10}>
               <TextField
+                variant="outlined"
                 type={this.state.showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"

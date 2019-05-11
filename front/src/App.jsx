@@ -78,6 +78,9 @@ const muiTheme = createMuiTheme({
     fontSize: 12,
   },
   overrides: {
+    MuiOutlinedInput: {
+      root: { background: colors.gray10, boxSizing: 'border-box', borderRadius: 4 },
+    },
     MuiIconButton: {
       root: { padding: 0, color: colors.gray70 },
     },
