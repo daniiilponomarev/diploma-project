@@ -1,60 +1,40 @@
 import React from 'react';
 import { Flex, Box } from '@rebass/grid';
 import styled from 'styled-components';
-import { Input, Button } from '../../components/common-components';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import { colors, indentations } from '../../common';
-import user from '../../assets/icons/user.svg';
-import key from '../../assets/icons/key.svg';
 
 const LoginFormContainer = styled.div`
   border-radius: 10px;
-  border: 1px solid ${colors.gray};
-  box-shadow: 0 0 5px ${colors.gray}, 0 5px 2px rgba(0, 0, 0, 0.29);
+  border: 1px solid ${colors.gray50};
+  // box-shadow: 0 0 5px ${colors.gray50}, 0 5px 2px rgba(0, 0, 0, 0.29);
   background: linear-gradient(${colors.gray30}, ${colors.gray20});
 `;
 
-const TextInputContainer = styled.div`
-  position: relative;
-  width: 100%;
-  margin-bottom: 10px;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 17px;
-    right: 10px;
-    display: inline-block;
-    margin-left: -25px;
-    height: 22px;
-    width: 26px;
-  }
-`;
-
-const UsernameInputContainer = styled(TextInputContainer)`
-  &::after {
-    mask: url(${user}) no-repeat 50% 50%;
-    background-color: ${colors.darkGray};
-    transition: background-color 0.3s ease;
-  }
-
-  &:focus-within::after {
-    background-color: ${colors.blue20};
-  }
-`;
-
-const PasswordInputContainer = styled(TextInputContainer)`
-  &::after {
-    mask: url(${key}) no-repeat 50% 50%;
-    background-color: ${colors.darkGray};
-    transition: background-color 0.3s ease;
-  }
-
-  &:focus-within::after {
-    background-color: ${colors.blue20};
-  }
-`;
-
 export class Login extends React.Component {
+  state = {
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false,
+  };
+
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
+  };
+
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
   render() {
     return (
       <Flex flex="1 0 auto" flexDirection="column" justifyContent="center" alignItems="center">
@@ -73,13 +53,41 @@ export class Login extends React.Component {
             m="0 auto"
             action="http://httpbin.org/post"
             method="post">
-            <UsernameInputContainer>
-              <Input name="username" type="text" id="username" autoFocus required placeholder="Имя пользователя" />
-            </UsernameInputContainer>
-            <PasswordInputContainer>
-              <Input name="password" type="password" id="password" required placeholder="Пароль" />
-            </PasswordInputContainer>
-            <Button type="submit">Войти</Button>
+            <Box width={1} mb={10}>
+              <TextField
+                name="username"
+                id="username"
+                autoFocus
+                required
+                label="Имя пользователя"
+                fullWidth
+                InputProps={{
+                  endAdornment: <AccountCircle />,
+                }}
+              />
+            </Box>
+            <Box width={1} mb={10}>
+              <TextField
+                type={this.state.showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                required
+                label="Пароль"
+                fullWidth
+                value={this.state.password}
+                onChange={this.handleChange('password')}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                      {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  ),
+                }}
+              />
+            </Box>
+            <Button variant="contained" color="primary" type="submit">
+              Войти
+            </Button>
           </Flex>
         </Box>
       </Flex>

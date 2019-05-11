@@ -2,10 +2,10 @@ import React, { StrictMode } from 'react';
 import { Redirect } from 'react-router';
 import { Router, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-// import styled, { ThemeProvider } from 'styled-components'
 import { Flex } from '@rebass/grid';
 import { map, values } from 'ramda';
 import { createBrowserHistory } from 'history';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import { Container, Container2, Login } from './containers';
 import { ErrorBoundary, PageHeader, PageFooter } from './components';
@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   input, textarea, select, button {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
                   'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
@@ -55,6 +55,37 @@ const theme = {
   breakpoints: map(item => `${item}em`, values(sizes)),
 };
 
+const muiTheme = createMuiTheme({
+  palette: {
+    // type: 'dark',
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: colors.blue80,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      light: '#0066ff',
+      main: '#0044ff',
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: '#ffcc00',
+    },
+    // error: will use the default color
+  },
+  typography: {
+    htmlFontSize: 10,
+    fontSize: 12,
+  },
+  overrides: {
+    MuiIconButton: {
+      root: { padding: 0, color: colors.gray70 },
+    },
+    MuiSvgIcon: {
+      root: { color: colors.gray70 },
+    },
+  },
+});
+
 history.listen((location, action) =>
   setTimeout(() => {
     // Keep default behavior of restoring scroll position when user:
@@ -79,24 +110,26 @@ const App = () => (
   <StrictMode>
     <GlobalStyle whiteColor />
     <ThemeProvider theme={theme}>
-      <Router history={history}>
-        <Flex as={AppWrapper} flexDirection="column" m="0 auto">
-          <PageHeader />
-          <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
-            <ErrorBoundary>
-              <Switch>
-                {!isAuthorized && <Route path={routes.login} component={Login} />}
-                {!isAuthorized && <Route path={routes.container} component={Container} />}
-                {!isAuthorized && <Route path={routes.container2} component={Container2} />}
-                {!isAuthorized && <Route path={routes.base} component={Container} />}
-                {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
-                {/*<Redirect to={routes.base} />*/}
-              </Switch>
-            </ErrorBoundary>
+      <MuiThemeProvider theme={muiTheme}>
+        <Router history={history}>
+          <Flex as={AppWrapper} flexDirection="column" m="0 auto">
+            <PageHeader />
+            <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
+              <ErrorBoundary>
+                <Switch>
+                  {!isAuthorized && <Route path={routes.login} component={Login} />}
+                  {!isAuthorized && <Route path={routes.container} component={Container} />}
+                  {!isAuthorized && <Route path={routes.container2} component={Container2} />}
+                  {!isAuthorized && <Route path={routes.base} component={Container} />}
+                  {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
+                  {/*<Redirect to={routes.base} />*/}
+                </Switch>
+              </ErrorBoundary>
+            </Flex>
+            <PageFooter />
           </Flex>
-          <PageFooter />
-        </Flex>
-      </Router>
+        </Router>
+      </MuiThemeProvider>
     </ThemeProvider>
   </StrictMode>
 );
