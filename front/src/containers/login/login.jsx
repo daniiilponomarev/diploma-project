@@ -1,6 +1,5 @@
 import React from 'react';
 import { Flex, Box } from '@rebass/grid';
-
 import styled from 'styled-components';
 import { Input, Button } from '../../components/common-components';
 import { colors, indentations } from '../../common';
@@ -67,7 +66,13 @@ export class Login extends React.Component {
           pt="20px"
           pb="15px"
           m="0 auto">
-          <Flex flexDirection="column" alignItems="flex-end" m="0 auto" action="http://httpbin.org/post" method="post">
+          <Flex
+            as="form"
+            flexDirection="column"
+            alignItems="flex-end"
+            m="0 auto"
+            action="http://httpbin.org/post"
+            method="post">
             <UsernameInputContainer>
               <Input name="username" type="text" id="username" autoFocus required placeholder="Имя пользователя" />
             </UsernameInputContainer>

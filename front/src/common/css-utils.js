@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 export const colors = {
   darkBlack: '#1a1a1a',
   black: '#3e3e3e',
@@ -44,3 +46,15 @@ export const indentations = {
   s: ['1rem', '2rem', '2.4rem'],
   m: ['2.4rem', '3.2rem'],
 };
+
+export const media = Object.keys(sizes).reduce((acc, label) => {
+  const emSize = sizes[label];
+
+  acc[label] = (...args) => css`
+    @media (min-width: ${emSize}em) {
+      ${css(...args)};
+    }
+  `;
+
+  return acc;
+}, {});
