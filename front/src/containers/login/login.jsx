@@ -20,10 +20,7 @@ const LoginFormContainer = styled.div`
 
 export class Login extends React.Component {
   state = {
-    amount: '',
     password: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
   };
 

@@ -73,6 +73,7 @@ const muiTheme = createMuiTheme({
     // error: will use the default color
   },
   typography: {
+    useNextVariants: true,
     htmlFontSize: 10,
     fontSize: 12,
   },
