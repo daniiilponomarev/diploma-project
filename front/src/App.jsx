@@ -118,7 +118,10 @@ const App = () => (
         <Router history={history}>
           <Flex as={AppWrapper} flexDirection="column" m="0 auto">
             <PageHeader />
-            <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
+            <div className="foreground" />
+            <div className="midground" />
+            <div className="background" />
+            <Flex mt="7rem" flex="1 0 auto" flexDirection="column" style={{zIndex:1}}>
               <ErrorBoundary>
                 <Switch>
                   {!isAuthorized && <Route path={routes.login} component={Login} />}
