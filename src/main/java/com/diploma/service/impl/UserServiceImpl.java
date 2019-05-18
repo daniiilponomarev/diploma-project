@@ -12,13 +12,6 @@ public class UserServiceImpl implements UserService {
 	private static List<User> users = Collections.synchronizedList(new ArrayList<>(
 			Arrays.asList(new User("admin", "admin", UserRole.ADMIN), new User("user", "user", UserRole.USER))));
 
-//	@Override
-//	public void registerUser(User user) {
-//		synchronized (users) {
-//			users.add(user);
-//		}
-//	}
-
 	@Override
 	public User getFullUser(User incompleteUser) {
 		Optional<User> fullUser = users.stream().filter(user -> user.equalsUsernameAndPasswordWith(incompleteUser))
