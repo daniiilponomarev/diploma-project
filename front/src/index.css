@@ -1,0 +1,82 @@
+/*
+================================
+Reference CSS */
+.foreground {
+    animation: parallax_fg linear 10s infinite both;
+    background:  url(http://stash.rachelnabors.com/24ways2012/foreground_grass.png) 0 100% repeat-x;
+}
+
+@keyframes parallax_fg {
+    0% { background-position: -3584px 100%;}
+    100% {background-position: 0 100%; }
+}
+
+.midground {
+    animation: parallax_mg linear 20s infinite;
+    background:  url(http://stash.rachelnabors.com/24ways2012/midground_grass.png) 0 100% repeat-x;
+}
+
+@keyframes parallax_mg {
+    0% { background-position: -3000px 100%;}
+    100% {background-position: 0 100%; }
+}
+
+.background {
+    animation: parallax_bg linear 40s infinite;
+    background-image:
+            url(http://stash.rachelnabors.com/24ways2012/background_mountain5.png),
+            url(http://stash.rachelnabors.com/24ways2012/background_mountain4.png),
+            url(http://stash.rachelnabors.com/24ways2012/background_mountain3.png),
+            url(http://stash.rachelnabors.com/24ways2012/background_mountain2.png),
+            url(http://stash.rachelnabors.com/24ways2012/background_mountain1.png);
+    background-repeat: repeat-x;
+    background-position: 0 100%;
+}
+
+/*
+================================
+Your Code Here */
+
+/* Create a keyfram-x of each background image from $imgWidth to 0 */
+/* These are the background image widths in order:
+   2400px, 2000px, 1800px, 1600px, 1200px */
+@keyframes parallax_bg {
+    100% { background-position-x: 2400px;}
+}
+
+/* Now apply that animation to the .background layer so it repeats every 40 seconds */
+
+/*
+================================
+Necessary Code Below-- plz ignore */
+.tuna {
+    animation: walk-cycle 1s steps(12) infinite;
+    background: url(http://stash.rachelnabors.com/img/codepen/tuna_sprite.png) 0 0 no-repeat;
+    height: 200px;
+    width: 400px;
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    margin-left: -200px;
+}
+
+@keyframes walk-cycle {
+    0% {background-position: 0 0; }
+    100% {background-position: 0 -2391px; }
+}
+
+body {
+    background: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%),
+    #d2d2d2 url(http://stash.rachelnabors.com/24ways2012/background_clouds.png);
+}
+
+.foreground, .midground, .background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+.background {  z-index: 1; }
+.midground {  z-index: 2; }
+.foreground {  z-index: 3; }
