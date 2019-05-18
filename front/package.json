@@ -9,10 +9,10 @@
     "history": "4.7.2",
     "query-string": "6.1.0",
     "ramda": "^0.26.1",
-    "react": "^16.8.4",
+    "react": "^16.8.6",
     "react-async-call": "^0.5.1",
     "react-delay": "0.1.0",
-    "react-dom": "^16.8.4",
+    "react-dom": "^16.8.6",
     "react-helmet": "5.2.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
@@ -44,5 +44,5 @@
     "trailingComma": "all",
     "jsxBracketSameLine": true
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:8080"
 }

@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router';
 import { Router, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -11,6 +11,7 @@ import { Container, Container2, Login } from './containers';
 import { ErrorBoundary, PageHeader, PageFooter } from './components';
 import './App.css';
 import { colors, sizes, routes } from './common';
+import { UserContext } from './user-context';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -48,8 +49,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const history = createBrowserHistory();
-
-let isAuthorized = false;
 
 const theme = {
   breakpoints: map(item => `${item}em`, values(sizes)),
@@ -110,32 +109,80 @@ const AppWrapper = styled.div`
   height: 100%;
 `;
 
-const App = () => (
-  <StrictMode>
-    <GlobalStyle whiteColor />
-    <ThemeProvider theme={theme}>
-      <MuiThemeProvider theme={muiTheme}>
-        <Router history={history}>
-          <Flex as={AppWrapper} flexDirection="column" m="0 auto">
-            <PageHeader />
-            <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
-              <ErrorBoundary>
-                <Switch>
-                  {!isAuthorized && <Route path={routes.login} component={Login} />}
-                  {!isAuthorized && <Route path={routes.container} component={Container} />}
-                  {!isAuthorized && <Route path={routes.container2} component={Container2} />}
-                  {!isAuthorized && <Route path={routes.base} component={Container} />}
-                  {/* TODO: <Route path='*' component={NotFoundComponent} />*/}
-                  {/*<Redirect to={routes.base} />*/}
-                </Switch>
-              </ErrorBoundary>
-            </Flex>
-            <PageFooter />
-          </Flex>
-        </Router>
-      </MuiThemeProvider>
-    </ThemeProvider>
-  </StrictMode>
+const LoginRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (role === 'USER' ? <Component {...props} /> : <Redirect to="/login" />)} />
+    )}
+  </UserContext.Consumer>
 );
+
+const UserRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (role === 'USER' ? <Component {...props} /> : <Redirect to="/" />)} />
+    )}
+  </UserContext.Consumer>
+);
+
+const AdminRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (role === 'ADMIN' ? <Component {...props} /> : <Redirect to="/" />)} />
+    )}
+  </UserContext.Consumer>
+);
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // TODO: Correct authorization
+    this.authorize = (username, role) => {
+      this.setState(() => ({
+        username: username,
+        role: role,
+      }));
+    };
+
+    this.state = {
+      username: '',
+      role: '',
+      authorize: this.authorize,
+    };
+  }
+
+  render() {
+    return (
+      <AppWrapper>
+        <GlobalStyle whiteColor />
+        <ThemeProvider theme={theme}>
+          <UserContext.Provider value={this.state}>
+            <MuiThemeProvider theme={muiTheme}>
+              <Router history={history}>
+                <Flex as={AppWrapper} flexDirection="column" m="0 auto">
+                  <PageHeader />
+                  <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
+                    <ErrorBoundary>
+                      <Switch>
+                        <Route path={routes.login} component={Login} />}
+                        <UserRoute path={routes.container} component={Container} />
+                        <AdminRoute path={routes.container2} component={Container2} />
+                        <LoginRoute path={routes.base} component={Container} />
+                        {/*/!* TODO: <Route path='*' component={NotFoundComponent} />*!/*/}
+                        <Redirect to={routes.base} />
+                      </Switch>
+                    </ErrorBoundary>
+                  </Flex>
+                  <PageFooter />
+                </Flex>
+              </Router>
+            </MuiThemeProvider>
+          </UserContext.Provider>
+        </ThemeProvider>
+      </AppWrapper>
+    );
+  }
+}
 
 export default App;

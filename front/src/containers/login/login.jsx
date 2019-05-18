@@ -9,20 +9,27 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+import { UserContext } from '../../user-context';
 import { colors, indentations } from '../../common';
+import { login } from '../../api';
+import Helmet from 'react-helmet';
 
 const LoginFormContainer = styled.div`
   border-radius: 10px;
   border: 1px solid ${colors.gray50};
-  // box-shadow: 0 0 5px ${colors.gray50}, 0 5px 2px rgba(0, 0, 0, 0.29);
   background: linear-gradient(${colors.gray30}, ${colors.gray20});
 `;
 
+const initialState = {
+  username: '',
+  password: '',
+  showPassword: false,
+};
+
 export class Login extends React.Component {
-  state = {
-    password: '',
-    showPassword: false,
-  };
+  state = initialState;
+
+  static contextType = UserContext;
 
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -30,11 +37,48 @@ export class Login extends React.Component {
 
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
+
+    console.log(this.context);
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(this.state);
+
+    login({
+      username: this.state.username,
+      password: this.state.password,
+    }).then(
+      response => {
+        console.log(response);
+        if (response.username) {
+          this.context.authorize(response.username, response.role);
+          this.handleClearForm();
+          console.log(this.state);
+        } else {
+          console.log('Error');
+        }
+      },
+      error => {
+        console.log('Error', error);
+      },
+    );
+  };
+
+  handleClearForm = e => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    this.setState({ ...initialState });
   };
 
   render() {
     return (
       <Flex flex="1 0 auto" flexDirection="column" justifyContent="center" alignItems="center">
+        <Helmet>
+          <title>Вход</title>
+        </Helmet>
         <Box
           as={LoginFormContainer}
           width={1}
@@ -45,10 +89,10 @@ export class Login extends React.Component {
           m="0 auto">
           <Flex
             as="form"
+            onSubmit={this.handleSubmit}
             flexDirection="column"
             alignItems="flex-end"
             m="0 auto"
-            action="http://httpbin.org/post"
             method="post">
             <Box width={1} mb={10}>
               <TextField
@@ -59,6 +103,7 @@ export class Login extends React.Component {
                 required
                 label="Имя пользователя"
                 fullWidth
+                onChange={this.handleChange('username')}
                 InputProps={{
                   endAdornment: <AccountCircle />,
                 }}

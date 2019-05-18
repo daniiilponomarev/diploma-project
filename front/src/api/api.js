@@ -64,9 +64,10 @@ export const buildPostMultipart = (prefix = '') =>
       params,
     );
 
-    files.forEach((item, index) => {
-      formData.append(item.name, item);
-    });
+    files &&
+      files.forEach((item, index) => {
+        formData.append(item.name, item);
+      });
 
     return fetch(adjustedUrl, {
       method: 'POST',
@@ -104,6 +105,8 @@ export const getSmth2 = () => {
     });
   });
 };
+
+export const login = data => postApiMultipart('/user/login', data);
 
 export const postCustomers = (smth, files) => postApiMultipart('/smth', smth, files);
 
