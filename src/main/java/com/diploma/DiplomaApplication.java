@@ -2,8 +2,9 @@ package com.diploma;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 @SpringBootApplication
 public class DiplomaApplication {
@@ -12,12 +13,17 @@ public class DiplomaApplication {
         SpringApplication.run(DiplomaApplication.class, args);
     }
 
-    @Controller
-    public class ViewController {
+    @Configuration
+    public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-        @RequestMapping({"general", "container1", "container2",})
-        public String index() {
-            return "forward:/index.html";
+        @Override
+        public void addViewControllers(ViewControllerRegistry registry) {
+            registry.addViewController("/{spring:\\w+}")
+                    .setViewName("forward:/");
+            registry.addViewController("/**/{spring:\\w+}")
+                    .setViewName("forward:/");
+            registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+                    .setViewName("forward:/");
         }
     }
 }
