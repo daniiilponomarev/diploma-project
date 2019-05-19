@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Flex } from '@rebass/grid';
+import { Flex, Box } from '@rebass/grid';
 import { Link } from 'react-router-dom';
 
 import { zIndexes, routes } from '../../common';
+import { LogoSVG } from '../common-components';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -17,6 +18,7 @@ const HeaderWrapper = styled.header`
 
 export const PageHeader = () => (
   <Flex as={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">
+    <Box width="50px"><LogoSVG /></Box>
     <Link to={routes.base} title="home">
       Home
     </Link>
