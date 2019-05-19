@@ -16,9 +16,15 @@ const HeaderWrapper = styled.header`
   width: 100%;
 `;
 
-export const PageHeader = () => (
+export const PageHeader = ({ history }) => (
   <Flex as={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">
-    <Box width="50px"><LogoSVG /></Box>
+    <Box width="50px">
+      <LogoSVG
+        onClick={() => {
+          history.push(routes.base);
+        }}
+      />
+    </Box>
     <Link to={routes.base} title="home">
       Home
     </Link>

@@ -161,7 +161,7 @@ class App extends React.Component {
             <MuiThemeProvider theme={muiTheme}>
               <Router history={history}>
                 <Flex as={AppWrapper} flexDirection="column" m="0 auto">
-                  <PageHeader />
+                  <PageHeader history={history} />
                   <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
                     <ErrorBoundary>
                       <Switch>
@@ -174,7 +174,7 @@ class App extends React.Component {
                       </Switch>
                     </ErrorBoundary>
                   </Flex>
-                  <PageFooter />
+                  {/*<PageFooter />*/}
                 </Flex>
               </Router>
             </MuiThemeProvider>
