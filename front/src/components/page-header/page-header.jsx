@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
 import { Link } from 'react-router-dom';
 
-import { zIndexes, routes } from '../../common';
+import { zIndexes, routes, COMMON_WORDS } from '../../common';
 import { LogoSVG } from '../common-components';
 
 const HeaderWrapper = styled.header`
@@ -18,12 +18,8 @@ const HeaderWrapper = styled.header`
 
 export const PageHeader = ({ history }) => (
   <Flex as={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">
-    <Box width="50px">
-      <LogoSVG
-        onClick={() => {
-          history.push(routes.base);
-        }}
-      />
+    <Box width="50px" as={Link} to={routes.base} title={COMMON_WORDS.homePage}>
+      <LogoSVG />
     </Box>
     <Link to={routes.base} title="home">
       Home

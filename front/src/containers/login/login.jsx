@@ -10,7 +10,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { UserContext } from '../../user-context';
-import { colors, indentations } from '../../common';
+import { colors, indentations, routes } from '../../common'
 import { login } from '../../api';
 import Helmet from 'react-helmet';
 
@@ -37,13 +37,10 @@ export class Login extends React.Component {
 
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
-
-    console.log(this.context);
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
 
     login({
       username: this.state.username,
@@ -54,13 +51,13 @@ export class Login extends React.Component {
         if (response.username) {
           this.context.authorize(response.username, response.role);
           this.handleClearForm();
-          console.log(this.state);
+          this.props.history.push(routes.base)
         } else {
-          console.log('Error');
+          console.log('Authorization error');
         }
       },
       error => {
-        console.log('Error', error);
+        console.log('Authorization error', error);
       },
     );
   };
