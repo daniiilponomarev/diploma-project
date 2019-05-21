@@ -162,7 +162,7 @@ class App extends React.Component {
               <Router history={history}>
                 <Flex as={AppWrapper} flexDirection="column" m="0 auto">
                   <PageHeader history={history} />
-                  <Flex mt="7rem" flex="1 0 auto" flexDirection="column">
+                  <Flex flex="1 0 auto" flexDirection="column">
                     <ErrorBoundary>
                       <Switch>
                         <Route path={routes.login} component={Login} />}
