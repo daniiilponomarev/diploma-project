@@ -2,18 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex, Box } from '@rebass/grid';
 import { Link } from 'react-router-dom';
-// import Link from '@material-ui/core/Link';
-
-import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -34,68 +27,49 @@ const HeaderWrapper = styled.header`
 export class PageHeader extends React.Component {
   state = {
     anchorEl: null,
+    anchorElProfile: null,
   };
 
   static contextType = UserContext;
 
   handleMenu = event => {
-    console.log('handleMenu');
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  handleProfile = event => {
+    this.setState({ anchorElProfile: event.currentTarget });
+  };
+
   handleClose = () => {
-    console.log('handleClose');
     this.setState({ anchorEl: null });
   };
 
+  handleCloseProfile = () => {
+    this.setState({ anchorElProfile: null });
+  };
+
   handleLogout = () => {
+    this.handleCloseProfile();
     this.context.authorize('', '');
   };
 
   render() {
-    const { anchorEl } = this.state;
+    const { anchorEl, anchorElProfile } = this.state;
     const open = Boolean(anchorEl);
-    console.log(this.context);
+    const openProfile = Boolean(anchorElProfile);
 
     return (
       <div>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              aria-owns={open ? 'menu-appbar' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit">
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={this.handleClose}>
-              <Link to={routes.base}><MenuItem onClick={this.handleClose}> Link 1 </MenuItem></Link>
-              <Link to={routes.container}><MenuItem onClick={this.handleClose}> Link 2 </MenuItem></Link>
-              <Link to={routes.container2}><MenuItem onClick={this.handleClose}> Link 3 </MenuItem></Link>
-            </Menu>
-            {/*<Typography variant="h6" color="inherit">*/}
-            {/*  CTS*/}
-            {/*</Typography>*/}
+          <Flex as={Toolbar} justifyContent={this.context.role ? 'space-between' : 'center'} alignItems="center">
             {this.context.role && (
-              <div>
+              <Box>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : undefined}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit">
-                  <AccountCircle />
+                  <MenuIcon />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -110,11 +84,48 @@ export class PageHeader extends React.Component {
                   }}
                   open={open}
                   onClose={this.handleClose}>
+                  <Link to={routes.base}>
+                    <MenuItem onClick={this.handleClose}> Link 1 </MenuItem>
+                  </Link>
+                  <Link to={routes.container}>
+                    <MenuItem onClick={this.handleClose}> Link 2 </MenuItem>
+                  </Link>
+                  <Link to={routes.container2}>
+                    <MenuItem onClick={this.handleClose}> Link 3 </MenuItem>
+                  </Link>
+                </Menu>
+              </Box>
+            )}
+            <Box width="50px" as={Link} to={routes.base} title={COMMON_WORDS.homePage}>
+              <LogoSVG />
+            </Box>
+            {this.context.role && (
+              <Box>
+                <IconButton
+                  aria-owns={openProfile ? 'menu-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleProfile}
+                  color="inherit">
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElProfile}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={openProfile}
+                  onClose={this.handleCloseProfile}>
                   <MenuItem onClick={this.handleLogout}>Выйти</MenuItem>
                 </Menu>
-              </div>
+              </Box>
             )}
-          </Toolbar>
+          </Flex>
         </AppBar>
 
         {/*<Flex as={HeaderWrapper} m="0 auto" alignItems="center" py="1rem">*/}
