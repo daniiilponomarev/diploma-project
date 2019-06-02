@@ -7,7 +7,7 @@ import { map, values } from 'ramda';
 import { createBrowserHistory } from 'history';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
-import { Container, Container2, Login } from './containers';
+import { Container, Container2, Login, Request } from './containers';
 import { ErrorBoundary, PageHeader, PageFooter } from './components';
 import './App.css';
 import { colors, sizes, routes } from './common';
@@ -112,7 +112,7 @@ const AppWrapper = styled.div`
 const LoginRoute = ({ component: Component, ...rest }) => (
   <UserContext.Consumer>
     {({ role }) => (
-      <Route {...rest} render={props => (role === 'USER' ? <Component {...props} /> : <Redirect to="/login" />)} />
+      <Route {...rest} render={props => (role === 'USER' || role === 'EMPLOYEE' || role === 'MANAGER' || role === 'DIRECTOR' ? <Component {...props} /> : <Redirect to="/login" />)} />
     )}
   </UserContext.Consumer>
 );
@@ -129,6 +129,30 @@ const AdminRoute = ({ component: Component, ...rest }) => (
   <UserContext.Consumer>
     {({ role }) => (
       <Route {...rest} render={props => (role === 'ADMIN' ? <Component {...props} /> : <Redirect to="/" />)} />
+    )}
+  </UserContext.Consumer>
+);
+
+const EmployeeRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (1||role === 'EMPLOYEE' ? <Component {...props} /> : <Redirect to="/" />)} />
+    )}
+  </UserContext.Consumer>
+);
+
+const ManagerRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (role === 'MANAGER' ? <Component {...props} /> : <Redirect to="/" />)} />
+    )}
+  </UserContext.Consumer>
+);
+
+const DirectorRoute = ({ component: Component, ...rest }) => (
+  <UserContext.Consumer>
+    {({ role }) => (
+      <Route {...rest} render={props => (role === 'DIRECTOR' ? <Component {...props} /> : <Redirect to="/" />)} />
     )}
   </UserContext.Consumer>
 );
@@ -166,6 +190,7 @@ class App extends React.Component {
                     <ErrorBoundary>
                       <Switch>
                         <Route path={routes.login} component={Login} />}
+                        <EmployeeRoute path={routes.request} component={Request} />
                         <UserRoute path={routes.container} component={Container} />
                         <AdminRoute path={routes.container2} component={Container2} />
                         <LoginRoute path={routes.base} component={Container} />

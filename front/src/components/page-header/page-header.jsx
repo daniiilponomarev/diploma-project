@@ -87,6 +87,9 @@ export class PageHeader extends React.Component {
                   <Link to={routes.base}>
                     <MenuItem onClick={this.handleClose}> Link 1 </MenuItem>
                   </Link>
+                  <Link to={routes.request}>
+                    <MenuItem onClick={this.handleClose}> Заявка </MenuItem>
+                  </Link>
                   <Link to={routes.container}>
                     <MenuItem onClick={this.handleClose}> Link 2 </MenuItem>
                   </Link>

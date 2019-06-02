@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Box } from '@rebass/grid';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -8,11 +9,15 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 
 import { UserContext } from '../../user-context';
 import { colors, indentations, routes } from '../../common'
 import { login } from '../../api';
-import Helmet from 'react-helmet';
 
 const LoginFormContainer = styled.div`
   border-radius: 10px;
@@ -24,7 +29,12 @@ const initialState = {
   username: '',
   password: '',
   showPassword: false,
+  dialogOpened: false,
 };
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export class Login extends React.Component {
   state = initialState;
@@ -68,6 +78,10 @@ export class Login extends React.Component {
     }
 
     this.setState({ ...initialState });
+  };
+
+  handleDialogClose = () => {
+    this.setState(state => ({ dialogOpened: !state.dialogOpened }));
   };
 
   render() {
@@ -131,6 +145,22 @@ export class Login extends React.Component {
             </Button>
           </Flex>
         </Box>
+
+        <Dialog
+          open={this.state.dialogOpened}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleDialogClose}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">Пользователь не найден!</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Введите корректные данные для авторизации!
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
       </Flex>
     );
   }
