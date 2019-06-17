@@ -1,342 +1,404 @@
-import React from 'react'
-import { Flex, Box } from '@rebass/grid'
-import styled from 'styled-components'
-import Helmet from 'react-helmet'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { Flex, Box } from '@rebass/grid';
+import styled from 'styled-components';
+import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import Checkbox from '@material-ui/core/Checkbox'
+import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
+import Save from '@material-ui/icons/Save';
 
-import { UserContext } from '../../user-context'
-import { colors, indentations, routes } from '../../common'
-import { login } from '../../api'
+import { UserContext } from '../../user-context';
+import { colors, indentations, routes } from '../../common';
+import { login } from '../../api';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 
-function createRequestInfoData(
-  requisites,
-  person,
-  purpose,
-  description,
-  address,
-) {
-  return {
-    requisites,
-    person,
-    purpose,
-    description,
-    address,
-  }
-}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-const requestInfoRows = [
-  createRequestInfoData('ОАО "Глобус"', 'Петров А.И.', 3.7, 67, 4.3),
-]
+const tableIcons = {
+  Add: AddBox,
+  Check: Check,
+  Clear: Clear,
+  Delete: DeleteOutline,
+  DetailPanel: ChevronRight,
+  Edit: Edit,
+  Export: SaveAlt,
+  Filter: FilterList,
+  FirstPage: FirstPage,
+  LastPage: LastPage,
+  NextPage: ChevronRight,
+  PreviousPage: ChevronLeft,
+  ResetSearch: Clear,
+  Search: Search,
+  SortArrow: ArrowUpward,
+  ThirdStateCheck: Remove,
+  ViewColumn: ViewColumn,
+  Save: Save,
+};
 
-const requestInfoHeadRows = [
-  { id: 'requisites', disablePadding: false, label: 'Реквизиты клиента' },
-  { id: 'person', disablePadding: false, label: 'Физическое лицо' },
-  { id: 'purpose', disablePadding: false, label: 'Цель запроса' },
-  { id: 'description', disablePadding: false, label: 'Краткое описание' },
-  { id: 'address', disablePadding: false, label: 'Адрес объекта' },
-]
-
-function createRequestEmployeesData(
-  requisites,
-  person,
-  purpose,
-  description,
-  address,
-) {
-  return {
-    requisites,
-    person,
-    purpose,
-    description,
-    address,
-  }
-}
-
-const requestEmployeesRows = [
-  createRequestInfoData('ОАО "Глобус"', 'Петров А.И.', 3.7, 67, 4.3),
-]
-
-const requestInfoHeadRows = [
-  { id: 'requisites', disablePadding: false, label: 'Реквизиты клиента' },
-  { id: 'person', disablePadding: false, label: 'Физическое лицо' },
-  { id: 'purpose', disablePadding: false, label: 'Цель запроса' },
-  { id: 'description', disablePadding: false, label: 'Краткое описание' },
-  { id: 'address', disablePadding: false, label: 'Адрес объекта' },
-]
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein }
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-]
-
-function desc(a, b, orderBy) {
-  if (b[ orderBy ] < a[ orderBy ]) {
-    return -1
-  }
-  if (b[ orderBy ] > a[ orderBy ]) {
-    return 1
-  }
-  return 0
-}
-
-function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [ el, index ])
-  stabilizedThis.sort((a, b) => {
-    const order = cmp(a[ 0 ], b[ 0 ])
-    if (order !== 0) {
-      return order
-    }
-    return a[ 1 ] - b[ 1 ]
-  })
-  return stabilizedThis.map(el => el[ 0 ])
-}
-
-function getSorting(order, orderBy) {
-  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy)
-}
-
-const headRows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-]
-
-function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
+export function RequestInfo() {
+  const [state, setState] = React.useState({
+    columns: [
+      { title: 'ИНН клиента', field: 'INN' },
+      { title: 'КПП клиента', field: 'KPP' },
+      { title: 'Физическое лицо', field: 'person' },
+      { title: 'Цель запроса', field: 'purpose' },
+      { title: 'Краткое описание', field: 'description' },
+      { title: 'Адрес объекта', field: 'address' },
+    ],
+    data: [
+      {
+        INN: '6449013711 ',
+        KPP: '644901001',
+        person: 'ТУЧИН МИХАИЛ АЛЕКСАНДРОВИЧ',
+        purpose: 'Настроить экраны',
+        description: 'Вышли из строя экраны оборудования',
+        address: 'Тула, ул. Петрова, д.8',
+      },
+    ],
+  });
 
   return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+    <MaterialTable
+      title="Заявка"
+      icons={tableIcons}
+      columns={state.columns}
+      data={state.data}
+      // data={query =>
+      //   new Promise((resolve, reject) => {
+      //     let url = 'https://reqres.in/api/users?'
+      //     url += 'per_page=' + query.pageSize
+      //     url += '&page=' + (query.page + 1)
+      //     fetch(url)
+      //       .then(response => response.json())
+      //       .then(result => {
+      //         resolve({
+      //           data: result.data,
+      //           page: result.page - 1,
+      //           totalCount: result.total,
+      //         })
+      //       })
+      //   })
+      // }
+      options={{
+        exportButton: true,
+        paging: false,
+        search: false,
+      }}
+    />
+  );
+}
+
+export function RequestBrigade() {
+  const [state, setState] = React.useState({
+    columns: [{ title: 'ФИО', field: 'fullName' }, { title: 'Квалификация', field: 'qualificate' }],
+    data: [
+      {
+        fullName: 'Дорофеев Герасим Филатович',
+        qualificate: 'Специалист',
+      },
+      {
+        fullName: 'Голубев Мечеслав Авксентьевич',
+        qualificate: 'Специалист',
+      },
+      {
+        fullName: 'Рожков Ким Лукьянович',
+        qualificate: 'Младший специалист',
+      },
+    ],
+  });
+
+  return (
+    <MaterialTable
+      title="Бригада #5"
+      icons={tableIcons}
+      columns={state.columns}
+      data={state.data}
+      // data={query =>
+      //   new Promise((resolve, reject) => {
+      //     let url = 'https://reqres.in/api/users?'
+      //     url += 'per_page=' + query.pageSize
+      //     url += '&page=' + (query.page + 1)
+      //     fetch(url)
+      //       .then(response => response.json())
+      //       .then(result => {
+      //         resolve({
+      //           data: result.data,
+      //           page: result.page - 1,
+      //           totalCount: result.total,
+      //         })
+      //       })
+      //   })
+      // }
+      options={{
+        exportButton: true,
+        paging: false,
+        search: false,
+      }}
+    />
+  );
+}
+
+function RequestService(props) {
+  const [state, setState] = React.useState({
+    columns: [
+      {
+        title: 'Этап',
+        field: 'phase',
+        editable: 'never',
+      },
+      { title: 'Начало', field: 'beginning', type: 'date' },
+      { title: 'Окончание', field: 'ending', type: 'date' },
+      {
+        title: 'Выполнено',
+        field: 'done',
+        editable: 'never',
+        render: rowData => (
           <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
+            checked={rowData.done}
+            onChange={() => {
+              setState(state => {
+                let data = state.data;
+                data[rowData.tableData.id].done = !rowData.done;
+                return { ...state, data };
+              });
+            }}
           />
-        </TableCell>
-        {headRows.map(row => (
-          <TableCell
-            key={row.id}
-            align={row.numeric ? 'right' : 'left'}
-            padding={row.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === row.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === row.id}
-              direction={order}
-              onClick={createSortHandler(row.id)}
-            >
-              {row.label}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-}
-
-const EnhancedTableToolbar = () => (
-  <Toolbar>
-    <Typography variant="h6" id="tableTitle">
-      Информация о заявке
-    </Typography>
-  </Toolbar>
-)
-
-function EnhancedTable() {
-  const classes = {}
-  const [ order, setOrder ] = React.useState('asc')
-  const [ orderBy, setOrderBy ] = React.useState('calories')
-  const [ selected, setSelected ] = React.useState([])
-  const [ page, setPage ] = React.useState(0)
-  const [ dense, setDense ] = React.useState(false)
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(5)
-
-  function handleRequestSort(event, property) {
-    const isDesc = orderBy === property && order === 'desc'
-    setOrder(isDesc ? 'asc' : 'desc')
-    setOrderBy(property)
-  }
-
-  function handleSelectAllClick(event) {
-    if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name)
-      setSelected(newSelecteds)
-      return
-    }
-    setSelected([])
-  }
-
-  function handleClick(event, name) {
-    const selectedIndex = selected.indexOf(name)
-    let newSelected = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      )
-    }
-
-    setSelected(newSelected)
-  }
-
-  function handleChangePage(event, newPage) {
-    setPage(newPage)
-  }
-
-  function handleChangeRowsPerPage(event) {
-    setRowsPerPage(+event.target.value)
-  }
-
-  const isSelected = name => selected.indexOf(name) !== -1
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
+        ),
+      },
+      { title: 'Комментарий', field: 'comment' },
+    ],
+    data: [
+      {
+        phase: 'Прибытие',
+        beginning: new Date('2019-05-20'),
+        ending: new Date('2019-05-20'),
+        done: true,
+        comment: 'Комментарий',
+      },
+      {
+        phase: 'Получение изделия',
+        beginning: new Date('2019-05-20'),
+        ending: new Date('2019-05-20'),
+        done: true,
+        comment: 'Комментарий',
+      },
+      {
+        phase: 'Диагностика',
+        beginning: new Date('2019-05-20'),
+        ending: new Date('2019-05-21'),
+        done: true,
+        comment: 'Комментарий',
+      },
+      {
+        phase: 'Ремонт',
+        beginning: new Date('2019-05-21'),
+        done: false,
+      },
+      { phase: 'Сервисное обслуживание', done: false },
+      { phase: 'Контрольная проверка работы', done: false },
+      { phase: 'Передача изделия', done: false },
+      { phase: 'Формирование документа результата', done: false },
+      { phase: 'Возвращение', done: false },
+    ],
+    localization: {
+      toolbar: {
+        exportTitle: 'Экспортировать',
+        exportName: 'Экспортировать как CSV',
+      },
+      header: {
+        actions: 'Действия',
+      },
+      body: {
+        emptyDataSourceMessage: 'Нет данных',
+        editTooltip: 'Редактировать',
+        editRow: { saveTooltip: 'Сохранить', cancelTooltip: 'Отмена' },
+      },
+    },
+  });
 
   return (
-    <div>
-      <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div>
-          <Table
-            aria-labelledby="tableTitle"
-            size={'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(row => {
-                  const isItemSelected = isSelected(row.name)
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                  )
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          rowsPerPageOptions={[ 5, 10, 25 ]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </div>
-  )
+    <MaterialTable
+      title="Статус"
+      icons={tableIcons}
+      columns={state.columns}
+      data={state.data}
+      localization={state.localization}
+      actions={[
+        {
+          icon: tableIcons.Save,
+          tooltip: 'Сохранить',
+          onClick: (event, rowData) => {
+            // Do save operation
+            console.log('save',event,rowData);
+            // login({
+            //   username: this.state.username,
+            //   password: this.state.password,
+            // }).then(
+            //   response => {
+            //     console.log(response);
+            //     if (response.username) {
+            //       this.context.authorize(response.username, response.role);
+            //       this.handleClearForm();
+            //       this.props.history.push(routes.base)
+            //     } else {
+            //       this.setState(state => ({ dialogOpened: true }));
+            //       console.log('Authorization error');
+            //     }
+            //   },
+            //   error => {
+            //     this.setState(state => ({ dialogOpened: true }));
+            //     console.log('Authorization error', error);
+            //   },
+            // );
+
+            return new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                props.handleDialogClose();
+              }, 0);
+            });
+          },
+        },
+      ]}
+      editable={{
+        // onRowAdd: newData =>
+        //   new Promise(resolve => {
+        //     setTimeout(() => {
+        //       resolve();
+        //       const data = [...state.data];
+        //       data.push(newData);
+        //       setState({ ...state, data });
+        //     }, 600);
+        //   }),
+        onRowUpdate: (newData, oldData) => {
+          // login({
+          //   username: this.state.username,
+          //   password: this.state.password,
+          // }).then(
+          //   response => {
+          //     console.log(response);
+          //     if (response.username) {
+          //       this.context.authorize(response.username, response.role);
+          //       this.handleClearForm();
+          //       this.props.history.push(routes.base)
+          //     } else {
+          //       this.setState(state => ({ dialogOpened: true }));
+          //       console.log('Authorization error');
+          //     }
+          //   },
+          //   error => {
+          //     this.setState(state => ({ dialogOpened: true }));
+          //     console.log('Authorization error', error);
+          //   },
+          // );
+
+          newData.beginning = new Date(newData.beginning);
+          newData.ending = new Date(newData.ending);
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              const data = [...state.data];
+              data[data.indexOf(oldData)] = newData;
+              setState({ ...state, data });
+              // props.handleDialogClose();
+            }, 0);
+          });
+        },
+        // onRowDelete: oldData =>
+        //   new Promise(resolve => {
+        //     setTimeout(() => {
+        //       resolve();
+        //       const data = [...state.data];
+        //       data.splice(data.indexOf(oldData), 1);
+        //       setState({ ...state, data });
+        //     }, 600);
+        //   }),
+      }}
+      options={{
+        exportButton: true,
+        paging: false,
+        search: false,
+      }}
+    />
+  );
 }
 
 const initialState = {
-  username: '',
-  password: '',
-  showPassword: false,
   dialogOpened: false,
-}
+};
 
 export class Request extends React.Component {
-  state = initialState
+  state = initialState;
 
-  static contextType = UserContext
+  static contextType = UserContext;
+
+  handleDialogClose = () => {
+    this.setState(state => ({ dialogOpened: !state.dialogOpened }));
+  };
 
   render() {
     return (
-      <Flex flex="1 0 auto" flexDirection="column" justifyContent="center" alignItems="center">
+      <Flex flex="1 0 auto" flexDirection="column" justifyContent="flex-start" alignItems="center">
         <Helmet>
           <title>Заявка</title>
         </Helmet>
-        <Box>
-          <EnhancedTable />
+        <Box width={1} px={indentations.s} mt="15px" m="0 auto">
+          <RequestInfo />
         </Box>
+        <Box width={1} px={indentations.s} mt="10px" m="0 auto">
+          <RequestBrigade />
+        </Box>
+        <Box width={1} px={indentations.s} mt="10px" pb="15px" m="0 auto">
+          <RequestService handleDialogClose={this.handleDialogClose} />
+        </Box>
+
+        <Dialog
+          open={this.state.dialogOpened}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleDialogClose}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description">
+          <DialogTitle id="alert-dialog-slide-title">Сохранение невозможно!</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">Повторите попытку позже!</DialogContentText>
+          </DialogContent>
+        </Dialog>
       </Flex>
-    )
+    );
   }
 }
