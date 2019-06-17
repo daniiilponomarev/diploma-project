@@ -145,7 +145,7 @@ const AdminRoute = ({ component: Component, ...rest }) => (
 const EmployeeRoute = ({ component: Component, ...rest }) => (
   <UserContext.Consumer>
     {({ role }) => (
-      <Route {...rest} render={props => (1||role === 'EMPLOYEE' ? <Component {...props} /> : <Redirect to="/" />)} />
+      <Route {...rest} render={props => (role === 'EMPLOYEE' ? <Component {...props} /> : <Redirect to="/" />)} />
     )}
   </UserContext.Consumer>
 );
