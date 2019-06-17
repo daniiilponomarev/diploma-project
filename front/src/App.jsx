@@ -7,7 +7,7 @@ import { map, values } from 'ramda';
 import { createBrowserHistory } from 'history';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
-import { Container, Container2, Login, Request } from './containers';
+import { Home, Container, Container2, Login, Request } from './containers';
 import { ErrorBoundary, PageHeader, PageFooter } from './components';
 import './App.css';
 import { colors, sizes, routes } from './common';
@@ -112,7 +112,16 @@ const AppWrapper = styled.div`
 const LoginRoute = ({ component: Component, ...rest }) => (
   <UserContext.Consumer>
     {({ role }) => (
-      <Route {...rest} render={props => (role === 'USER' || role === 'EMPLOYEE' || role === 'MANAGER' || role === 'DIRECTOR' ? <Component {...props} /> : <Redirect to="/login" />)} />
+      <Route
+        {...rest}
+        render={props =>
+          role === 'USER' || role === 'EMPLOYEE' || role === 'MANAGER' || role === 'DIRECTOR' ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      />
     )}
   </UserContext.Consumer>
 );
@@ -193,7 +202,7 @@ class App extends React.Component {
                         <EmployeeRoute path={routes.request} component={Request} />
                         <UserRoute path={routes.container} component={Container} />
                         <AdminRoute path={routes.container2} component={Container2} />
-                        <LoginRoute path={routes.base} component={Container} />
+                        <Route path={routes.base} component={Home} />
                         {/*/!* TODO: <Route path='*' component={NotFoundComponent} />*!/*/}
                         <Redirect to={routes.base} />
                       </Switch>
