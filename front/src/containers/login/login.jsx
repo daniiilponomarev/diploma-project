@@ -63,10 +63,12 @@ export class Login extends React.Component {
           this.handleClearForm();
           this.props.history.push(routes.base)
         } else {
+          this.setState(state => ({ dialogOpened: true }));
           console.log('Authorization error');
         }
       },
       error => {
+        this.setState(state => ({ dialogOpened: true }));
         console.log('Authorization error', error);
       },
     );
