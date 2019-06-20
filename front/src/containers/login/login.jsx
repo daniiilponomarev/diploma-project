@@ -57,15 +57,15 @@ export class Login extends React.Component {
       password: this.state.password,
     }).then(
       response => {
-        console.log(response);
-        if (response.username) {
-          this.context.authorize(response.username, response.role);
-          this.handleClearForm();
-          this.props.history.push(routes.base)
-        } else {
+        // console.log(response);
+        // if (response.username) {
+        //   this.context.authorize(response.username, response.role);
+        //   this.handleClearForm();
+        //   this.props.history.push(routes.base)
+        // } else {
           this.setState(state => ({ dialogOpened: true }));
           console.log('Authorization error');
-        }
+        // }
       },
       error => {
         this.setState(state => ({ dialogOpened: true }));

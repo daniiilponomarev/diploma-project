@@ -202,7 +202,7 @@ class App extends React.Component {
                         <EmployeeRoute path={routes.request} component={Request} />
                         <UserRoute path={routes.container} component={Container} />
                         <AdminRoute path={routes.container2} component={Container2} />
-                        <Route path={routes.base} component={Home} />
+                        <LoginRoute path={routes.base} component={Home} />
                         {/*/!* TODO: <Route path='*' component={NotFoundComponent} />*!/*/}
                         <Redirect to={routes.base} />
                       </Switch>
