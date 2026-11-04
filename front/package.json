@@ -10,7 +10,7 @@
     "material-table": "^1.39.0",
     "material-ui-table-edit": "^3.0.3",
     "prop-types": "^15.7.2",
-    "query-string": "6.1.0",
+    "query-string": "10.0.0",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-async-call": "^0.5.1",
